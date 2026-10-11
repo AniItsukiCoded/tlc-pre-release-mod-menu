@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><title>THE LONG HALLS</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="The Long Halls with expanded local mod menu: jump, flight, ESP, and browser-saved controls.">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Rye&display=swap" rel="stylesheet">
@@ -34,9 +35,9 @@
   <div id="stam"><i id="stamfill"></i></div>
   <div id="inv">
     <div id="bat"><span>Flashlight</span><b><i id="batfill"></i></b></div>
-    <div id="botn" class="hidden"><span>Bottles</span><u id="botc">0</u><em>G throw · SPACE drop · 1</em></div>
-    <div id="batn" class="hidden"><span>Batteries</span><u id="batc">0</u><em>R use · SPACE drop · 2</em></div>
-    <div id="keyn" class="hidden"><span>Brass key</span><em>SPACE drop · 3</em></div>
+    <div id="botn" class="hidden"><span>Bottles</span><u id="botc">0</u><em>G throw · Q drop · 1</em></div>
+    <div id="batn" class="hidden"><span>Batteries</span><u id="batc">0</u><em>R use · Q drop · 2</em></div>
+    <div id="keyn" class="hidden"><span>Brass key</span><em>Q drop · 3</em></div>
     <div id="notn"><span>Notes</span><u id="notc">0</u><em>/ 6</em></div>
   </div>
   <div id="note" class="hidden"><p></p></div>
@@ -62,9 +63,9 @@
   <div class="pan">
     <p>You wake in a bed, and the power is out. You have <b>five days</b>. Every time he catches you, you wake up on the <b>next day</b>: the halls are rebuilt and he gets faster. Get caught on day five and it is over. The exit is sealed. Search the <b>rooms</b> off the halls for <b>4 fuses</b> glowing on pedestals, then <b>open the exit</b> and walk into the light.</p>
     <p>Close <b>doors</b> behind you. A shut door hides you from his eyes, and an open one you did not open means he has already been through.</p>
-    <p>Your flashlight runs on <b>batteries</b>. Take <b>bottles</b> and throw one: he will go and look. Pick items up with <b>E</b> and drop them with <b>SPACE</b>; the item in your hand is the one you drop (mouse wheel or <b>1-3</b> to switch). A <b>brass key</b> opens the room he never visits; spare <b>batteries</b> are used with <b>R</b>. Hold <b>C</b> or <b>CTRL</b> to crouch: you move slowly, but quietly and lower. <b>Notes</b> tell you what happened here.</p>
+    <p>Your flashlight runs on <b>batteries</b>. Take <b>bottles</b> and throw one: he will go and look. Pick items up with <b>E</b> and drop them with <b>Q</b>; the item in your hand is the one you drop (mouse wheel or <b>1-3</b> to switch). A <b>brass key</b> opens the room he never visits; spare <b>batteries</b> are used with <b>R</b>. Hold <b>C</b> or <b>CTRL</b> to crouch: you move slowly, but quietly and lower. <b>Notes</b> tell you what happened here.</p>
     <p><b>Lockers</b> are your only shelter. If he <b>sees you climb in</b>, he will drag you out. Sprinting is loud. Lights fail. Don't stop moving.</p>
-    <div class="keys">WASD move &nbsp;·&nbsp; SHIFT sprint &nbsp;·&nbsp; MOUSE look &nbsp;·&nbsp; E interact / hide &nbsp;·&nbsp; F flashlight &nbsp;·&nbsp; G throw bottle &nbsp;·&nbsp; C / CTRL crouch &nbsp;·&nbsp; SPACE drop item &nbsp;·&nbsp; R use battery &nbsp;·&nbsp; 1-3 select item &nbsp;·&nbsp; ESC pause</div>
+    <div class="keys">WASD move &nbsp;·&nbsp; SHIFT sprint &nbsp;·&nbsp; MOUSE look &nbsp;·&nbsp; E interact / hide &nbsp;·&nbsp; F flashlight &nbsp;·&nbsp; G throw bottle &nbsp;·&nbsp; C / CTRL crouch &nbsp;·&nbsp; Q drop item &nbsp;·&nbsp; SPACE jump &nbsp;·&nbsp; R use battery &nbsp;·&nbsp; 1-3 select item &nbsp;·&nbsp; ESC pause</div>
   </div>
   <button class="gb sm bx" id="hBack">Back ›</button>
 </div>
@@ -95,6 +96,339 @@
 <script src="https://cdn.jsdelivr.net/gh/AniItsukiCoded/tlc-pre-release-mod-menu@main/js/props.js" onerror="window.__tlcSourceLoadError('js/props.js')"></script>
 <script src="https://cdn.jsdelivr.net/gh/AniItsukiCoded/tlc-pre-release-mod-menu@main/js/enemy.js" onerror="window.__tlcSourceLoadError('js/enemy.js')"></script>
 <script src="https://cdn.jsdelivr.net/gh/AniItsukiCoded/tlc-pre-release-mod-menu@main/js/menu.js" onerror="window.__tlcSourceLoadError('js/menu.js')"></script>
-<script src="https://cdn.jsdelivr.net/gh/AniItsukiCoded/tlc-pre-release-mod-menu@main/js/main.js" onerror="window.__tlcSourceLoadError('js/main.js')"></script>
-<script src="https://cdn.jsdelivr.net/gh/AniItsukiCoded/tlc-pre-release-mod-menu@main/js/MOD%20MENU.js" onerror="window.__tlcSourceLoadError('js/MOD MENU.js')"></script>
+<!-- main.js and MOD MENU.js are fetched and extended by the bootstrap below. -->
+
+<script id="tlc-extended-mod-loader">
+(async function () {
+  'use strict';
+  const BASE = 'https://cdn.jsdelivr.net/gh/AniItsukiCoded/tlc-pre-release-mod-menu@main/';
+  const report = (message) => {
+    console.error('[TLC Extended Mod Menu]', message);
+    if (typeof window.__tlcSourceLoadError === 'function') window.__tlcSourceLoadError(message);
+  };
+  async function fetchSource(path) {
+    const response = await fetch(BASE + path, { cache: 'no-store' });
+    if (!response.ok) throw new Error('Could not fetch ' + path + ' (' + response.status + ')');
+    return await response.text();
+  }
+  function patch(source, from, to, label) {
+    if (!source.includes(from)) throw new Error('The repository source changed; could not apply patch: ' + label);
+    return source.replace(from, to);
+  }
+  function runSource(source, label) {
+    // Compile before appending so source incompatibilities fail with a useful diagnostic.
+    try { new Function(source); }
+    catch (error) { throw new Error(label + ' failed syntax validation: ' + error.message); }
+    const script = document.createElement('script');
+    script.dataset.tlcRuntimeSource = label;
+    script.textContent = source + '\n//# sourceURL=tlc-runtime-' + label.replace(/[^a-z0-9_-]/gi, '-') + '.js';
+    document.body.appendChild(script);
+  }
+
+  try {
+    let game = await fetchSource('js/main.js');
+    const gamePatches = [
+      [
+        'const MOD={godMode:false,infiniteStamina:false,infiniteFlashlight:false,superSpeed:false,speedMultiplier:2,freezeEnemy:false,slowEnemy:false,noBlackouts:false,enemyESP:false,itemESP:false,noclip:false,infiniteItems:false,autoSprint:false,fullBright:false,noFog:false,silentMovement:false,noCameraShake:false,slowMotion:false,showCoordinates:false};',
+        'const MOD={godMode:false,infiniteStamina:false,infiniteFlashlight:false,superSpeed:false,speedMultiplier:2,freezeEnemy:false,slowEnemy:false,noBlackouts:false,enemyESP:false,itemESP:false,noclip:false,infiniteItems:false,autoSprint:false,fullBright:false,noFog:false,silentMovement:false,noCameraShake:false,slowMotion:false,showCoordinates:false,jumpBoost:true,jumpDirectionalBoost:true,infiniteJump:false,fly:false,lowGravity:false,espBoxes:false,espTracers:false,espLabels:false,showFPS:false,crosshair:false,jumpHeadBob:true,landingBounce:true};',
+        'extended feature flags'
+      ],
+      [
+        'let modMenuOpen=false;',
+        'let modMenuOpen=false;\nlet jumpVel=0,jumpPower=7,flySpeed=6,jumpBoostStrength=11,jumpStaminaCost=.14,jumpBoostVX=0,jumpBoostVZ=0,jumpCamBob=0,jumpCamVel=0,jumpCamRoll=0,jumpCamRollVel=0,jumpWasAirborne=false;',
+        'jump/fly settings'
+      ],
+      [
+        'if(Number.isFinite(Number(saved.fov)))SET.fov=Math.max(60,Math.min(120,Number(saved.fov)));',
+        'if(Number.isFinite(Number(saved.fov)))SET.fov=Math.max(60,Math.min(120,Number(saved.fov)));\n   if(Number.isFinite(Number(saved.jumpPower)))jumpPower=Math.max(4.5,Math.min(8.5,Number(saved.jumpPower)));\n   if(Number.isFinite(Number(saved.flySpeed)))flySpeed=Math.max(2,Math.min(14,Number(saved.flySpeed)));\n   if(Number.isFinite(Number(saved.jumpBoostStrength)))jumpBoostStrength=Math.max(0,Math.min(14,Number(saved.jumpBoostStrength)));\n   if(saved.jumpPhysicsVersion!==5){MOD.jumpBoost=true;MOD.jumpDirectionalBoost=true;jumpPower=7;jumpBoostStrength=11;}',
+        'load persistent jump/fly tuning'
+      ],
+      [
+        'localStorage.setItem(MOD_CONFIG_KEY,JSON.stringify({flags,speedMultiplier:MOD.speedMultiplier,fov:SET.fov}));',
+        'localStorage.setItem(MOD_CONFIG_KEY,JSON.stringify({flags,speedMultiplier:MOD.speedMultiplier,fov:SET.fov,jumpPower,flySpeed,jumpBoostStrength,jumpPhysicsVersion:5}));',
+        'save persistent jump/fly tuning'
+      ],
+      [
+        "const P={x:0,z:0,noisy:false,hidden:false,lk:null,yaw:0},K={};",
+        "const P={x:0,y:0,z:0,noisy:false,hidden:false,lk:null,yaw:0},K={};",
+        'player vertical position'
+      ],
+      [
+        "if((e.code==='KeyQ'||e.code==='Space')&&!H){e.preventDefault();dropItem()}",
+        "if(e.code==='Space'&&(MOD.fly||MOD.jumpBoost)&&state==='play'&&!H){e.preventDefault();if(MOD.fly){if(!e.repeat)return;}else if(!e.repeat&&MOD.jumpBoost&&(MOD.infiniteJump||(!jumpWasAirborne&&(P.y||0)<=.01&&jumpVel<=0.05))&&(MOD.infiniteStamina||stam>=jumpStaminaCost)){if(!MOD.infiniteStamina){stam=Math.max(0,stam-jumpStaminaCost);const staminaFill=$('stamfill');if(staminaFill)staminaFill.style.width=(stam*100)+'%'}jumpVel=jumpPower;jumpWasAirborne=true;if(MOD.jumpDirectionalBoost){let ax=(K.KeyD?1:0)-(K.KeyA?1:0),az=(K.KeyS?1:0)-(K.KeyW?1:0),len=Math.hypot(ax,az),c=Math.cos(yaw),sn=Math.sin(yaw),fx=-sn,fz=-c,dx=fx,dz=fz;if(len>.001){ax/=len;az/=len;const wx=ax*c+az*sn,wz=-ax*sn+az*c;dx=wx*.72+fx*.98;dz=wz*.72+fz*.98;const dl=Math.hypot(dx,dz)||1;dx/=dl;dz/=dl}jumpBoostVX=dx*jumpBoostStrength;jumpBoostVZ=dz*jumpBoostStrength;if(K.ShiftLeft||MOD.autoSprint){jumpBoostVX*=1.18;jumpBoostVZ*=1.18}const nudge=Math.min(.16,Math.max(0,jumpBoostStrength)*.014);if(nudge>0){const nx=P.x+dx*nudge,nz=P.z+dz*nudge;if(MOD.noclip||!Level.blocked(nx,P.z,.4))P.x=nx;if(MOD.noclip||!Level.blocked(P.x,nz,.4))P.z=nz}}else{jumpBoostVX=0;jumpBoostVZ=0}if(MOD.jumpHeadBob){jumpCamVel-=.48;const side=jumpBoostVX*Math.cos(yaw)-jumpBoostVZ*Math.sin(yaw);jumpCamRollVel+=Math.max(-.055,Math.min(.055,side*.009))}}else if(!e.repeat&&MOD.jumpBoost&&!MOD.infiniteStamina&&!jumpWasAirborne&&(P.y||0)<=.01&&jumpVel<=.05&&stam<jumpStaminaCost){say('Too exhausted to jump.',1000)}return}if((e.code==='KeyQ'||e.code==='Space')&&!H){e.preventDefault();dropItem()}",
+        'Space jump/fly input (Q remains drop-item key)'
+      ],
+      [
+        'const sp=(cr?1.6:run?5.2:3.1)*(MOD.superSpeed?MOD.speedMultiplier:1);',
+        'const sp=(MOD.fly?flySpeed:(cr?1.6:run?5.2:3.1))*(MOD.superSpeed?MOD.speedMultiplier:1);',
+        'apply flight speed to horizontal movement'
+      ],
+      [
+        'if(mv){const l=Math.hypot(mx,mz);mx/=l;mz/=l;const c=Math.cos(yaw),s=Math.sin(yaw),vx=(mx*c+mz*s)*sp*dt,vz=(-mx*s+mz*c)*sp*dt;',
+        'if(mv){const l=Math.hypot(mx,mz);mx/=l;mz/=l;const c=Math.cos(yaw),s=Math.sin(yaw),airScale=((P.y||0)>.01&&!MOD.fly)?.62:1,vx=(mx*c+mz*s)*sp*airScale*dt,vz=(-mx*s+mz*c)*sp*airScale*dt;',
+        'natural air-control scaling'
+      ],
+      [
+        'const cr=!!(K.KeyC||K.ControlLeft||K.ControlRight);',
+        'const cr=!MOD.fly&&!!(K.KeyC||K.ControlLeft||K.ControlRight);',
+        'disable crouching while flying'
+      ],
+      [
+        'P.noisy=!!(mv&&run&&!MOD.silentMovement);',
+        'if(!H&&!MOD.fly&&((P.y||0)>.015||jumpWasAirborne||jumpVel>0)){if(MOD.jumpDirectionalBoost){if(mv){const l=Math.hypot(mx,mz)||1,c=Math.cos(yaw),sn=Math.sin(yaw);jumpBoostVX+=((mx/l)*c+(mz/l)*sn)*5.4*dt;jumpBoostVZ+=(-(mx/l)*sn+(mz/l)*c)*5.4*dt}const vv=Math.hypot(jumpBoostVX,jumpBoostVZ);if(vv>14){jumpBoostVX*=14/vv;jumpBoostVZ*=14/vv}const jx=jumpBoostVX*dt,jz=jumpBoostVZ*dt,stuck=Level.blocked(P.x,P.z,.4);if(MOD.noclip||stuck||!Level.blocked(P.x+jx,P.z,.4))P.x+=jx;else jumpBoostVX=0;if(MOD.noclip||stuck||!Level.blocked(P.x,P.z+jz,.4))P.z+=jz;else jumpBoostVZ=0;const damp=Math.exp(-1.45*dt);jumpBoostVX*=damp;jumpBoostVZ*=damp}else{jumpBoostVX=0;jumpBoostVZ=0}}else if(((P.y||0)<=.015&&!jumpWasAirborne&&jumpVel<=0)||H){jumpBoostVX=0;jumpBoostVZ=0}\n  P.noisy=!!(mv&&run&&!MOD.silentMovement);',
+        'integrate directional jump momentum and air steer'
+      ],
+      [
+        'const bs=SET.bob?1:0;if(H)cam.position.set(H.cx-H.nx*.08,1.55+Math.sin(time*1.6)*.004,H.cz-H.nz*.08);',
+        'if(!H){if(MOD.fly){const fs=flySpeed*(MOD.superSpeed?MOD.speedMultiplier:1);if(K.Space)P.y=Math.min(20,(P.y||0)+fs*dt);if(K.KeyC||K.ControlLeft||K.ControlRight)P.y=Math.max(-.75,(P.y||0)-fs*dt);jumpVel=0;jumpBoostVX=0;jumpBoostVZ=0;jumpWasAirborne=false;}else if(MOD.jumpBoost||(P.y||0)>0){P.y=Math.max(0,(P.y||0)+jumpVel*dt);jumpVel-=(MOD.lowGravity?8.5:22)*dt;if(P.y===0&&jumpVel<0){if(jumpWasAirborne&&MOD.landingBounce)jumpCamVel-=Math.min(1.35,.55+Math.abs(jumpVel)*.035);if(jumpWasAirborne&&MOD.jumpHeadBob){const side=jumpBoostVX*Math.cos(yaw)-jumpBoostVZ*Math.sin(yaw);jumpCamRollVel+=Math.max(-.07,Math.min(.07,side*.012))}jumpVel=0;jumpBoostVX=0;jumpBoostVZ=0;jumpWasAirborne=false;}else if(P.y>.01)jumpWasAirborne=true;}else{P.y=0;jumpVel=0;jumpBoostVX=0;jumpBoostVZ=0;jumpWasAirborne=false;}}\n  jumpCamVel+=(-jumpCamBob*86-jumpCamVel*17)*dt;jumpCamBob+=jumpCamVel*dt;jumpCamRollVel+=(-jumpCamRoll*74-jumpCamRollVel*16)*dt;jumpCamRoll+=jumpCamRollVel*dt;\n  const bs=SET.bob?1:0;if(H)cam.position.set(H.cx-H.nx*.08,1.55+Math.sin(time*1.6)*.004,H.cz-H.nz*.08);',
+        'jump/fly/low-gravity movement physics'
+      ],
+      [
+        'cam.position.set(P.x,1.65-.6*crouch+Math.sin(bob)*(run?.07:.04)*bs*(1-.6*crouch),P.z);',
+        'cam.position.set(P.x,1.65+(P.y||0)+(MOD.jumpHeadBob?jumpCamBob:0)-.6*crouch+Math.sin(bob)*(run?.07:.04)*bs*(1-.6*crouch),P.z);',
+        'apply vertical player height to camera'
+      ],
+      [
+        'cam.rotation.set(pitch,yaw,Math.sin(bob*.5)*.01*(mv?bs:0));',
+        'cam.rotation.set(pitch+((MOD.jumpHeadBob&&(P.y||0)>0)?Math.max(-.035,Math.min(.035,-jumpVel*.0035)):0),yaw,Math.sin(bob*.5)*.01*(mv?bs:0)+(MOD.jumpHeadBob?jumpCamRoll:0));',
+        'jump head pitch and lateral lean animation'
+      ],
+      [
+        'P.x=st.x;P.z=st.z;yaw=st.yaw;pitch=0;',
+        'P.x=st.x;P.y=0;P.z=st.z;jumpVel=0;jumpBoostVX=0;jumpBoostVZ=0;jumpCamBob=0;jumpCamVel=0;jumpCamRoll=0;jumpCamRollVel=0;jumpWasAirborne=false;yaw=st.yaw;pitch=0;',
+        'reset vertical state at day wake-up'
+      ],
+      [
+        'player:{x:P.x,z:P.z,yaw,hidden:!!H}',
+        'player:{x:P.x,y:P.y||0,z:P.z,yaw,hidden:!!H}',
+        'expose player vertical position in snapshot'
+      ],
+      [
+        ' getSnapshot(){',
+        " projectWorld(x,z,y=1.1){try{cam.updateMatrixWorld(true);const v=new THREE.Vector3(Number(x)||0,Number(y)||0,Number(z)||0);v.project(cam);return{x:(v.x+1)*innerWidth/2,y:(1-v.y)*innerHeight/2,z:v.z,visible:v.z>-1&&v.z<1&&v.x>=-1.15&&v.x<=1.15&&v.y>=-1.15&&v.y<=1.15};}catch(_){return null;}},\n getSnapshot(){",
+        'world-to-screen projection for ESP'
+      ],
+      [
+        ' setSpeedMultiplier(value){const n=Number(value);MOD.speedMultiplier=Math.max(1,Math.min(6,Number.isFinite(n)?n:2));persistModConfig();return MOD.speedMultiplier},',
+        ' setSpeedMultiplier(value){const n=Number(value);MOD.speedMultiplier=Math.max(1,Math.min(6,Number.isFinite(n)?n:2));persistModConfig();return MOD.speedMultiplier},\n getJumpPower(){return jumpPower},\n setJumpPower(value){const n=Number(value);jumpPower=Math.max(4.5,Math.min(8.5,Number.isFinite(n)?n:7));persistModConfig();return jumpPower},\n getJumpBoostStrength(){return jumpBoostStrength},\n setJumpBoostStrength(value){const n=Number(value);jumpBoostStrength=Math.max(0,Math.min(14,Number.isFinite(n)?n:11));persistModConfig();return jumpBoostStrength},\n getFlySpeed(){return flySpeed},\n setFlySpeed(value){const n=Number(value);flySpeed=Math.max(2,Math.min(14,Number.isFinite(n)?n:6));persistModConfig();return flySpeed},',
+        'jump/fly tuning API'
+      ],
+      [
+        "else if(where==='exit'){const q=Level.wp(Level.exit);x=q.x;z=q.z}",
+        "else if(where==='enemy'){x=en.g.position.x+1.5;z=en.g.position.z+1.5}\n  else if(where==='item'){const it=Level.items.find(v=>!v.taken);if(it){x=it.x-1;z=it.z}else{const f=Level.fuses.find(v=>!v.taken);if(f){x=f.x-1;z=f.z}else{say('No uncollected items remain.',1800);return false}}}\n  else if(where==='exit'){const q=Level.wp(Level.exit);x=q.x;z=q.z}",
+        'additional teleport targets'
+      ],
+      [
+        'P.x=x;P.z=z;P.crouch=false;crouch=0;pitch=0;P.noisy=false;cam.position.set(x,1.65,z);',
+        'P.x=x;P.y=0;P.z=z;jumpVel=0;jumpBoostVX=0;jumpBoostVZ=0;jumpCamBob=0;jumpCamVel=0;jumpCamRoll=0;jumpCamRollVel=0;jumpWasAirborne=false;P.crouch=false;crouch=0;pitch=0;P.noisy=false;cam.position.set(x,1.65,z);',
+        'clear jump/fly state on teleport'
+      ],
+      [
+        ' collectAll(){',
+        " refillInventory(){bot=99;bats=99;hasKey=true;bat=1;fon=true;stam=1;hud();say('Inventory refilled.',1800);return true},\n collectAll(){",
+        'refill inventory action'
+      ]
+    ];
+    const officialGameSource = game;
+    let extendedGameAvailable = true;
+    const failedGamePatches = [];
+    for (const [from, to, label] of gamePatches) {
+      try { game = patch(game, from, to, label); }
+      catch (gamePatchError) { console.warn('[TLC Extended Mod Menu] Skipping incompatible enhancement:', label, gamePatchError); failedGamePatches.push(label); }
+    }
+    const requiredJumpPatches = ['extended feature flags','jump/fly settings','load persistent jump/fly tuning','save persistent jump/fly tuning','Space jump/fly input (Q remains drop-item key)','natural air-control scaling','integrate directional jump momentum and air steer','jump/fly/low-gravity movement physics','apply vertical player height to camera','jump/fly tuning API'];
+    if (requiredJumpPatches.some(label => failedGamePatches.includes(label))) {
+      console.warn('[TLC Extended Mod Menu] Core jump hook unavailable; loading official game for safety.');
+      game = officialGameSource; extendedGameAvailable = false;
+    }
+    runSource(game, 'main-js');
+    if (!window.LHMod) throw new Error('The game script loaded, but LHMod was not initialized.');
+
+    let menu = await fetchSource('js/MOD%20MENU.js');
+    const menuPatches = [
+      [
+        '<label class="lhm-toggle"><input type="checkbox" data-mod="noclip"><i class="lhm-switch"></i><span class="lhm-txt"><b>Noclip</b><small>Move through walls and props</small></span></label>',
+        '<label class="lhm-toggle"><input type="checkbox" data-mod="noclip"><i class="lhm-switch"></i><span class="lhm-txt"><b>Noclip</b><small>Move through walls and props</small></span></label>\n              <label class="lhm-toggle"><input type="checkbox" data-mod="jumpBoost"><i class="lhm-switch"></i><span class="lhm-txt"><b>Jumping</b><small>Space to jump · costs 14% stamina per jump</small></span></label>\n              <label class="lhm-toggle"><input type="checkbox" data-mod="jumpDirectionalBoost"><i class="lhm-switch"></i><span class="lhm-txt"><b>Directional jump boost</b><small>Launch in the direction you jump · ON by default</small></span></label>\n              <label class="lhm-toggle"><input type="checkbox" data-mod="infiniteJump"><i class="lhm-switch"></i><span class="lhm-txt"><b>Infinite jump</b><small>Jump again while airborne</small></span></label>\n              <label class="lhm-toggle"><input type="checkbox" data-mod="fly"><i class="lhm-switch"></i><span class="lhm-txt"><b>Fly mode</b><small>WASD move · SPACE rise · C descend</small></span></label>\n              <label class="lhm-toggle"><input type="checkbox" data-mod="lowGravity"><i class="lhm-switch"></i><span class="lhm-txt"><b>Low gravity</b><small>Float longer on jumps</small></span></label>\n              <label class="lhm-toggle"><input type="checkbox" data-mod="jumpHeadBob"><i class="lhm-switch"></i><span class="lhm-txt"><b>Jump head bob</b><small>Head movement and subtle air tilt</small></span></label>\n              <label class="lhm-toggle"><input type="checkbox" data-mod="landingBounce"><i class="lhm-switch"></i><span class="lhm-txt"><b>Landing animation</b><small>Soft camera dip and rebound on landing</small></span></label>',
+        'jump and flight menu controls'
+      ],
+      [
+        '<label class="lhm-toggle"><input type="checkbox" data-mod="itemESP"><i class="lhm-switch"></i><span class="lhm-txt"><b>Item / fuse radar</b><small>Locate uncollected objectives</small></span></label>',
+        '<label class="lhm-toggle"><input type="checkbox" data-mod="itemESP"><i class="lhm-switch"></i><span class="lhm-txt"><b>Item / fuse radar</b><small>Locate uncollected objectives</small></span></label>\n              <label class="lhm-toggle"><input type="checkbox" data-mod="espBoxes"><i class="lhm-switch"></i><span class="lhm-txt"><b>Entity ESP box</b><small>Draw a box around the enemy</small></span></label>\n              <label class="lhm-toggle"><input type="checkbox" data-mod="espTracers"><i class="lhm-switch"></i><span class="lhm-txt"><b>ESP tracers</b><small>Draw lines to enemy and objectives</small></span></label>\n              <label class="lhm-toggle"><input type="checkbox" data-mod="espLabels"><i class="lhm-switch"></i><span class="lhm-txt"><b>World ESP labels</b><small>Label fuse and item positions</small></span></label>',
+        'visual ESP menu controls'
+      ],
+      [
+        '<div class="lhm-slider"><div class="lhm-slider-head"><label for="lhm-fov">Field of view</label><output id="lhm-fov-val">72°</output></div><input id="lhm-fov" type="range" min="60" max="120" step="1" value="72"></div>',
+        '<div class="lhm-slider"><div class="lhm-slider-head"><label for="lhm-fov">Field of view</label><output id="lhm-fov-val">72°</output></div><input id="lhm-fov" type="range" min="60" max="120" step="1" value="72"></div>\n              <div class="lhm-slider"><div class="lhm-slider-head"><label for="lhm-jump">Jump height</label><output id="lhm-jump-val">7.0</output></div><input id="lhm-jump" type="range" min="4.5" max="8.5" step="0.25" value="7"></div>\n              <div class="lhm-slider"><div class="lhm-slider-head"><label for="lhm-boost">Directional boost</label><output id="lhm-boost-val">11.0</output></div><input id="lhm-boost" type="range" min="0" max="14" step="0.25" value="11"></div>\n              <div class="lhm-slider"><div class="lhm-slider-head"><label for="lhm-fly">Flight speed</label><output id="lhm-fly-val">6.0</output></div><input id="lhm-fly" type="range" min="2" max="14" step="0.5" value="6"></div>',
+        'jump and flight tuning sliders'
+      ],
+      [
+        '<label class="lhm-toggle"><input type="checkbox" data-mod="noBlackouts"><i class="lhm-switch"></i><span class="lhm-txt"><b>Disable random blackouts</b><small>Stop scripted blackout events</small></span></label>',
+        '<label class="lhm-toggle"><input type="checkbox" data-mod="noBlackouts"><i class="lhm-switch"></i><span class="lhm-txt"><b>Disable random blackouts</b><small>Stop scripted blackout events</small></span></label>\n              <label class="lhm-toggle"><input type="checkbox" data-mod="showCoordinates"><i class="lhm-switch"></i><span class="lhm-txt"><b>Player coordinates</b><small>Show live X/Y/Z location on screen</small></span></label>\n              <label class="lhm-toggle"><input type="checkbox" data-mod="showFPS"><i class="lhm-switch"></i><span class="lhm-txt"><b>FPS counter</b><small>Show live frame rate</small></span></label>\n              <label class="lhm-toggle"><input type="checkbox" data-mod="crosshair"><i class="lhm-switch"></i><span class="lhm-txt"><b>Custom crosshair</b><small>Draw a simple centered reticle</small></span></label>',
+        'FPS, coordinates, and crosshair controls'
+      ],
+      [
+        '<button class="lhm-action" data-action="start">Teleport to spawn <span>↗</span></button>',
+        '<button class="lhm-action" data-action="start">Teleport to spawn <span>↗</span></button>\n              <button class="lhm-action" data-action="enemy">Teleport near entity <span>↗</span></button>\n              <button class="lhm-action" data-action="item">Teleport to next item <span>↗</span></button>',
+        'additional teleport buttons'
+      ],
+      [
+        '<button class="lhm-action" data-action="win">Complete run instantly <span>✓</span></button>',
+        '<button class="lhm-action" data-action="win">Complete run instantly <span>✓</span></button>\n              <button class="lhm-action" data-action="refill">Refill inventory <span>＋</span></button>',
+        'refill action button'
+      ],
+      [
+        "$('#lhmod-state').textContent = snap && snap.started && ['play','wake','scare','pause'].includes(snap.state) ? 'Run Active' : 'Console Ready';",
+        "$('#lhm-jump').value = api.getJumpPower();\n    $('#lhm-jump-val').textContent = Number($('#lhm-jump').value).toFixed(1);\n    $('#lhm-boost').value = api.getJumpBoostStrength();\n    $('#lhm-boost-val').textContent = Number($('#lhm-boost').value).toFixed(1);\n    $('#lhm-fly').value = api.getFlySpeed();\n    $('#lhm-fly-val').textContent = Number($('#lhm-fly').value).toFixed(1);\n    $('#lhmod-state').textContent = snap && snap.started && ['play','wake','scare','pause'].includes(snap.state) ? 'Run Active' : 'Console Ready';",
+        'refresh new sliders'
+      ],
+      [
+        "$('#lhmod-state').textContent = snap && snap.state === 'play' ? 'Run Active' : 'Console Ready';",
+        "$('#lhm-jump').value = api.getJumpPower();\n    $('#lhm-jump-val').textContent = Number($('#lhm-jump').value).toFixed(1);\n    $('#lhm-boost').value = api.getJumpBoostStrength();\n    $('#lhm-boost-val').textContent = Number($('#lhm-boost').value).toFixed(1);\n    $('#lhm-fly').value = api.getFlySpeed();\n    $('#lhm-fly-val').textContent = Number($('#lhm-fly').value).toFixed(1);\n    $('#lhmod-state').textContent = snap && snap.state === 'play' ? 'Run Active' : 'Console Ready';",
+        'refresh jump sliders for older official menu variants'
+      ],
+      [
+        'const doAction = action => {',
+        "$('#lhm-jump').addEventListener('input', e => { const v=api.setJumpPower(e.target.value); $('#lhm-jump-val').textContent=Number(v).toFixed(1); });\n  $('#lhm-boost').addEventListener('input', e => { const v=api.setJumpBoostStrength(e.target.value); $('#lhm-boost-val').textContent=Number(v).toFixed(1); });\n  $('#lhm-fly').addEventListener('input', e => { const v=api.setFlySpeed(e.target.value); $('#lhm-fly-val').textContent=Number(v).toFixed(1); });\n  const doAction = action => {",
+        'bind jump/fly tuning sliders'
+      ],
+      [
+        "case 'start': api.teleport('start'); break;",
+        "case 'start': api.teleport('start'); break;\n      case 'enemy': api.teleport('enemy'); break;\n      case 'item': api.teleport('item'); break;\n      case 'refill': api.refillInventory(); refreshControls(); break;",
+        'bind added world actions'
+      ],
+      [
+        "api.setSpeedMultiplier(2); if (typeof api.setFov === 'function') api.setFov(72); refreshControls(); setStatus('MOD TOGGLES RESET'); api.notify('All mod toggles and tuning reset.'); break;",
+        "api.setSpeedMultiplier(2); if (typeof api.setJumpPower === 'function') api.setJumpPower(7); if (typeof api.setJumpBoostStrength === 'function') api.setJumpBoostStrength(11); if (typeof api.setFlySpeed === 'function') api.setFlySpeed(6); if (typeof api.setFov === 'function') api.setFov(72); api.toggle('jumpBoost', true); api.toggle('jumpDirectionalBoost', true); api.toggle('jumpHeadBob', true); api.toggle('landingBounce', true); refreshControls(); setStatus('MOD TOGGLES RESET'); api.notify('Lower jump height and stronger forward-direction boost restored.'); break;",
+        'reset added tuning sliders'
+      ],
+      [
+        "api.setSpeedMultiplier(2); refreshControls(); setStatus('MOD TOGGLES RESET'); api.notify('All mod toggles disabled.'); break;",
+        "api.setSpeedMultiplier(2); if (typeof api.setJumpPower === 'function') api.setJumpPower(7); if (typeof api.setJumpBoostStrength === 'function') api.setJumpBoostStrength(11); if (typeof api.setFlySpeed === 'function') api.setFlySpeed(6); api.toggle('jumpBoost', true); api.toggle('jumpDirectionalBoost', true); api.toggle('jumpHeadBob', true); api.toggle('landingBounce', true); refreshControls(); setStatus('MOD TOGGLES RESET'); api.notify('Lower jump height and stronger forward-direction boost restored.'); break;",
+        'reset jump defaults for older official menu variants'
+      ],
+    ];
+    const officialMenuSource = menu;
+    if (extendedGameAvailable) {
+      for (const [from, to, label] of menuPatches) {
+        try { menu = patch(menu, from, to, label); }
+        catch (menuPatchError) { console.warn('[TLC Extended Mod Menu] Skipping optional menu enhancement:', label, menuPatchError); }
+      }
+    } else {
+      // Game internals fell back to official source, so pair them with the unmodified official menu.
+      menu = officialMenuSource;
+    }
+    runSource(menu, 'mod-menu-js');
+    if (extendedGameAvailable) installOverlay();
+  } catch (error) {
+    report(error && error.message ? error.message : String(error));
+  }
+
+  function installOverlay() {
+    const canvas = document.createElement('canvas');
+    canvas.id = 'lhm-extended-esp';
+    canvas.style.cssText = 'position:fixed;inset:0;width:100vw;height:100vh;z-index:9000;pointer-events:none;';
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    let lastFpsUpdate = performance.now(), frameCount = 0, currentFps = 0;
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = Math.max(1, Math.floor(innerWidth * dpr));
+      const h = Math.max(1, Math.floor(innerHeight * dpr));
+      if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    window.addEventListener('resize', resize, { passive: true });
+    const project = (api, x, z, y) => {
+      try { return api.projectWorld(x, z, y); } catch (_) { return null; }
+    };
+    function label(text, x, y, color) {
+      ctx.font = '12px Arial, sans-serif';
+      const width = ctx.measureText(text).width + 12;
+      ctx.fillStyle = 'rgba(8,8,8,.76)';
+      ctx.fillRect(x - width / 2, y - 17, width, 20);
+      ctx.strokeStyle = color; ctx.lineWidth = 1;
+      ctx.strokeRect(x - width / 2, y - 17, width, 20);
+      ctx.fillStyle = color; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(text, x, y - 7);
+    }
+    function tracer(point, color, w, h) {
+      ctx.strokeStyle = color; ctx.globalAlpha = .82; ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(w / 2, h - 10); ctx.lineTo(point.x, point.y); ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+    function draw() {
+      requestAnimationFrame(draw);
+      resize();
+      const w = innerWidth, h = innerHeight;
+      ctx.clearRect(0, 0, w, h);
+      const api = window.LHMod;
+      if (!api) return;
+      const flags = api.flags || {};
+      const now = performance.now(); frameCount++;
+      if (now - lastFpsUpdate >= 700) {
+        currentFps = Math.round(frameCount * 1000 / (now - lastFpsUpdate));
+        frameCount = 0; lastFpsUpdate = now;
+      }
+      if (flags.showFPS) {
+        ctx.textAlign = 'left'; ctx.textBaseline = 'top'; ctx.font = '12px Arial, sans-serif';
+        ctx.fillStyle = 'rgba(0,0,0,.65)'; ctx.fillRect(12, 12, 90, 25);
+        ctx.fillStyle = '#e9e1d6'; ctx.fillText('FPS  ' + currentFps, 21, 18);
+      }
+      if (flags.crosshair) {
+        const x = w / 2, y = h / 2;
+        ctx.strokeStyle = 'rgba(246,239,225,.9)'; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(x - 7, y); ctx.lineTo(x - 2, y); ctx.moveTo(x + 2, y); ctx.lineTo(x + 7, y);
+        ctx.moveTo(x, y - 7); ctx.lineTo(x, y - 2); ctx.moveTo(x, y + 2); ctx.lineTo(x, y + 7); ctx.stroke();
+        ctx.fillStyle = '#e14d45'; ctx.fillRect(x - 1, y - 1, 2, 2);
+      }
+      if (api.getMenuOpen && api.getMenuOpen()) return;
+      const s = api.getSnapshot && api.getSnapshot();
+      if (!s || !s.started || !['play', 'wake', 'scare', 'pause'].includes(s.state)) return;
+      if (flags.showCoordinates && s.player) {
+        ctx.textAlign = 'left'; ctx.textBaseline = 'top'; ctx.font = '12px monospace';
+        const coords = `X ${Number(s.player.x || 0).toFixed(2)}  Y ${Number(s.player.y || 0).toFixed(2)}  Z ${Number(s.player.z || 0).toFixed(2)}`;
+        ctx.fillStyle = 'rgba(0,0,0,.65)'; ctx.fillRect(12, flags.showFPS ? 43 : 12, 245, 24);
+        ctx.fillStyle = '#d8d0c4'; ctx.fillText(coords, 20, flags.showFPS ? 49 : 18);
+      }
+      const showEnemy = !!(flags.espBoxes || flags.espTracers || flags.espLabels);
+      if (showEnemy && s.enemy && Number.isFinite(s.enemy.x) && Number.isFinite(s.enemy.z)) {
+        const e = s.enemy;
+        const mid = project(api, e.x, e.z, 1.2);
+        if (mid && mid.visible) {
+          if (flags.espTracers) tracer(mid, '#ff6666', w, h);
+          if (flags.espBoxes) {
+            const top = project(api, e.x, e.z, 2.1), bottom = project(api, e.x, e.z, .15);
+            if (top && bottom && top.visible && bottom.visible) {
+              const boxH = Math.max(18, bottom.y - top.y), boxW = Math.max(18, boxH * .36), bx = mid.x - boxW / 2;
+              ctx.strokeStyle = '#ff5959'; ctx.lineWidth = 1.7; ctx.strokeRect(bx, top.y, boxW, boxH);
+              ctx.fillStyle = 'rgba(95,8,8,.2)'; ctx.fillRect(bx, top.y, boxW, boxH);
+              label('BOILED ONE · ' + Number(e.dist || 0).toFixed(1) + 'm', mid.x, top.y - 2, '#ff7777');
+            }
+          } else if (flags.espLabels) {
+            label('BOILED ONE · ' + Number(e.dist || 0).toFixed(1) + 'm', mid.x, mid.y - 13, '#ff7777');
+          }
+        }
+      }
+      if (flags.espLabels || flags.espTracers) {
+        const p = s.player || { x: 0, z: 0 };
+        const points = [];
+        (s.remainingFuses || []).forEach(f => points.push({ x: f.x, z: f.z, y: .7, text: 'FUSE ' + f.index, color: '#ffd16b' }));
+        (s.items || []).forEach(it => {
+          const names = { key: 'BRASS KEY', battery: 'BATTERY', bottle: 'BOTTLE', note: 'NOTE' };
+          points.push({ x: it.x, z: it.z, y: .45, text: names[it.type] || String(it.type || 'ITEM').toUpperCase(), color: '#91e6cf' });
+        });
+        points.sort((a, b) => Math.hypot(a.x - p.x, a.z - p.z) - Math.hypot(b.x - p.x, b.z - p.z));
+        points.slice(0, 28).forEach(item => {
+          const point = project(api, item.x, item.z, item.y);
+          if (!point || !point.visible) return;
+          const dist = Math.hypot(item.x - p.x, item.z - p.z);
+          if (flags.espTracers) tracer(point, item.color, w, h);
+          if (flags.espLabels) label(item.text + ' · ' + dist.toFixed(1) + 'm', point.x, point.y, item.color);
+        });
+      }
+    }
+    resize(); draw();
+  }
+})();
+</script>
 </body></html>
