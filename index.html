@@ -1,9 +1,26 @@
+
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><title>THE LONG HALLS</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Rye&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css"></head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AniItsukiCoded/tlc-pre-release-mod-menu@main/css/style.css" onerror="window.__tlcSourceLoadError('css/style.css')"><script>
+  // Friendly diagnostic if a hosted source file cannot be fetched.
+  window.__tlcSourceLoadError = function (file) {
+    let box = document.getElementById('tlc-source-error');
+    if (!box) {
+      box = document.createElement('div');
+      box.id = 'tlc-source-error';
+      box.style.cssText = 'position:fixed;z-index:200000;left:50%;top:14px;transform:translateX(-50%);width:min(680px,92vw);padding:14px 16px;background:#231514;color:#f8e7de;border:1px solid #b84a43;font:13px/1.5 Arial,sans-serif;box-shadow:0 8px 30px #0009';
+      document.body.appendChild(box);
+    }
+    const line = document.createElement('div');
+    line.textContent = 'Could not load ' + file + ' from the GitHub CDN. Check your internet connection or confirm the file still exists in the repository.';
+    box.appendChild(line);
+  };
+</script>
+</head>
 <body>
 <svg width="0" height="0" style="position:absolute"><filter id="rough"><feTurbulence baseFrequency=".05 .08" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="6"/></filter></svg>
 <canvas id="gl"></canvas>
@@ -72,12 +89,12 @@
 <div id="quit" class="screen hidden"><h2>There is no leaving.</h2></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="js/model.js"></script>
-<script src="js/audio.js"></script>
-<script src="js/level.js"></script>
-<script src="js/props.js"></script>
-<script src="js/enemy.js"></script>
-<script src="js/menu.js"></script>
-<script src="js/main.js"></script>
-<script src="js/MOD%20MENU.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/AniItsukiCoded/tlc-pre-release-mod-menu@main/js/model.js" onerror="window.__tlcSourceLoadError('js/model.js')"></script>
+<script src="https://cdn.jsdelivr.net/gh/AniItsukiCoded/tlc-pre-release-mod-menu@main/js/audio.js" onerror="window.__tlcSourceLoadError('js/audio.js')"></script>
+<script src="https://cdn.jsdelivr.net/gh/AniItsukiCoded/tlc-pre-release-mod-menu@main/js/level.js" onerror="window.__tlcSourceLoadError('js/level.js')"></script>
+<script src="https://cdn.jsdelivr.net/gh/AniItsukiCoded/tlc-pre-release-mod-menu@main/js/props.js" onerror="window.__tlcSourceLoadError('js/props.js')"></script>
+<script src="https://cdn.jsdelivr.net/gh/AniItsukiCoded/tlc-pre-release-mod-menu@main/js/enemy.js" onerror="window.__tlcSourceLoadError('js/enemy.js')"></script>
+<script src="https://cdn.jsdelivr.net/gh/AniItsukiCoded/tlc-pre-release-mod-menu@main/js/menu.js" onerror="window.__tlcSourceLoadError('js/menu.js')"></script>
+<script src="https://cdn.jsdelivr.net/gh/AniItsukiCoded/tlc-pre-release-mod-menu@main/js/main.js" onerror="window.__tlcSourceLoadError('js/main.js')"></script>
+<script src="https://cdn.jsdelivr.net/gh/AniItsukiCoded/tlc-pre-release-mod-menu@main/js/MOD%20MENU.js" onerror="window.__tlcSourceLoadError('js/MOD MENU.js')"></script>
 </body></html>
